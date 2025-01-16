@@ -43,27 +43,22 @@ jobs:
             local localization_file="$2"
             local output_file="$3"
           
-            # Load localization file into a variable
-            local localization
-            localization=$(cat "$localization_file")
+            # Make a copy of the config file
+            cp "$config_file" "$output_file"
           
-            # Use jq to process placeholders
-            jq -c --argjson loc "$localization" '
-              def replace_placeholders(obj):
-                if (obj | type == "string") then
-                  obj | gsub("\\{\\{(.+?)\\}\\}"; .loc[.captures[0]] // .captures[0])
-                elif (obj | type == "object") then
-                  obj | with_entries(.value |= replace_placeholders)
-                elif (obj | type == "array") then
-                  obj | map(replace_placeholders)
-                else obj end;
-              . | replace_placeholders
-            ' "$config_file" > "$output_file"
+            # Read each line in the localization file and replace placeholders
+            while IFS='=' read -r key value; do
+              placeholder="{{${key}}}"
+              # Escape special characters in the value
+              escaped_value=$(echo "$value" | sed 's/[&/]/\\&/g')
+              # Replace placeholder with the localized value
+              sed -i "s|$placeholder|$escaped_value|g" "$output_file"
+            done < "$localization_file"
           }
           
           # Process each localization file
-          for loc_file in localization-*.json; do
-            language=$(echo "$loc_file" | sed -E 's/localization-(.*)\\.json/\\1/')
+          for loc_file in localization-*.txt; do
+            language=$(echo "$loc_file" | sed -E 's/localization-(.*)\\.txt/\\1/')
             output_file="./public/cmConfigSigned-${language}.cmconfig"
             template_config "config.json" "$loc_file" "$output_file"
           
