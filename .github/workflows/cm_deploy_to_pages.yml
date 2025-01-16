@@ -42,35 +42,44 @@ jobs:
             local config_file="$1"
             local localization_file="$2"
             local output_file="$3"
-
-            jq -n --argfile config "$config_file" --argfile loc "$localization_file" '
+          
+            # Load localization file into a variable
+            local localization
+            localization=$(cat "$localization_file")
+          
+            # Use jq to process placeholders
+            jq -c --argjson loc "$localization" '
               def replace_placeholders(obj):
                 if (obj | type == "string") then
-                  obj | gsub("\\{\\{(.+?)\\}\\}"; (.loc[.matches[0]] // .matches[0]))
+                  obj | gsub("\\{\\{(.+?)\\}\\}"; .loc[.captures[0]] // .captures[0])
                 elif (obj | type == "object") then
                   obj | with_entries(.value |= replace_placeholders)
                 elif (obj | type == "array") then
                   obj | map(replace_placeholders)
                 else obj end;
-              $config | replace_placeholders
-            ' > "$output_file"
+              . | replace_placeholders
+            ' "$config_file" > "$output_file"
           }
-
+          
+          # Process each localization file
           for loc_file in localization-*.json; do
-            language=$(echo "$loc_file" | sed -E 's/localization-(.*)\.json/\1/')
+            language=$(echo "$loc_file" | sed -E 's/localization-(.*)\\.json/\\1/')
             output_file="./public/cmConfigSigned-${language}.cmconfig"
             template_config "config.json" "$loc_file" "$output_file"
-
+          
             # Sign the generated config
             status_code=$(curl -s -X POST --data-binary @"$output_file" -w "%{response_code}" \
               --header "Content-Type: application/json" \
               https://criticalmoments.io/account/api/sign_config \
               -o "$output_file")
-
+          
             if [ "$status_code" != "200" ]; then
-              echo "Error signing config: $status_code for file $output_file"; cat "$output_file"; exit 1;
+              echo "Error signing config: $status_code for file $output_file"
+              cat "$output_file"
+              exit 1
             fi
           done
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
