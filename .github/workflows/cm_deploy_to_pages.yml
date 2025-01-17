@@ -40,6 +40,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const path = require('path');
             const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
             const localizations = {
               "en": {
@@ -56,14 +57,22 @@ jobs:
               }
             };
 
+            // Ensure the public directory exists
+            const publicDir = path.join(process.cwd(), 'public');
+            if (!fs.existsSync(publicDir)) {
+              fs.mkdirSync(publicDir, { recursive: true });
+            }
+
             Object.keys(localizations).forEach(lang => {
               const localizedConfig = JSON.parse(JSON.stringify(config));
               Object.keys(localizedConfig.notifications).forEach(notificationKey => {
                 localizedConfig.notifications[notificationKey].title = localizations[lang][`${notificationKey}_title`];
                 localizedConfig.notifications[notificationKey].body = localizations[lang][`${notificationKey}_body`];
               });
-              fs.writeFileSync(`./public/cmConfigSigned-${lang}.cmconfig`, JSON.stringify(localizedConfig, null, 2));
+              const filePath = path.join(publicDir, `cmConfigSigned-${lang}.cmconfig`);
+              fs.writeFileSync(filePath, JSON.stringify(localizedConfig, null, 2));
             });
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
