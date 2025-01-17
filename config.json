@@ -3,8 +3,8 @@
   "appId": "app.treefox.calpal",
   "notifications": {
     "logMealNotification": {
-      "title": "{{logMealNotification.title}}",
-      "body": "{{logMealNotification.body}}",
+      "title": "",
+      "body": "",
       "deliveryTimeOfDayStart": "10:00",
       "deliveryTimeOfDayEnd": "16:00",
       "dev_note": "timing should be 12*60*60 = 43200 and 2*60*60 = 7200. Only active in the 4 first days.",
@@ -20,8 +20,8 @@
       "scheduleCondition": "app_install_date > now() - duration('96h')"
     },
     "keepStreakNotification": {
-      "title": "{{keepStreakNotification.title}}",
-      "body": "{{keepStreakNotification.body}}",
+      "title": "",
+      "body": "",
       "deliveryTimeOfDayStart": "18:00",
       "deliveryTimeOfDayEnd": "23:00",
       "dev_note": "timing should be 18*60*60 = 64800 and 1*60*60 = 3600",
