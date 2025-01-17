@@ -35,12 +35,13 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      - name: Generate Localized Configs
+      - name: Generate and Sign Localized Configs
         uses: actions/github-script@v6
         with:
           script: |
             const fs = require('fs');
             const path = require('path');
+            const { execSync } = require('child_process');
             const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
             const localizations = {
               "en": {
@@ -69,10 +70,21 @@ jobs:
                 localizedConfig.notifications[notificationKey].title = localizations[lang][`${notificationKey}_title`];
                 localizedConfig.notifications[notificationKey].body = localizations[lang][`${notificationKey}_body`];
               });
-              const filePath = path.join(publicDir, `cmConfigSigned-${lang}.cmconfig`);
-              fs.writeFileSync(filePath, JSON.stringify(localizedConfig, null, 2));
-            });
+              const tempFilePath = path.join(process.cwd(), `temp-${lang}.json`);
+              fs.writeFileSync(tempFilePath, JSON.stringify(localizedConfig, null, 2));
 
+              // Sign the config file
+              const signedFilePath = path.join(publicDir, `cmConfigSigned-${lang}.cmconfig`);
+              const command = `curl -s -X POST --data-binary @"${tempFilePath}" -w "%{response_code}" --header "Content-Type: application/json" https://criticalmoments.io/account/api/sign_config -o "${signedFilePath}"`;
+              const statusCode = execSync(command).toString().trim();
+
+              if (statusCode !== "200") {
+                console.error(`Error signing config for ${lang}: ${statusCode}`);
+                process.exit(1);
+              }
+
+              fs.unlinkSync(tempFilePath); // Clean up the temporary file
+            });
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
