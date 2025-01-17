@@ -35,46 +35,35 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      - name: Process Config Files
-        run: |
-          mkdir -p public
-          template_config() {
-            local config_file="$1"
-            local localization_file="$2"
-            local output_file="$3"
-          
-            # Make a copy of the config file
-            cp "$config_file" "$output_file"
-          
-            # Read each line in the localization file and replace placeholders
-            while IFS='=' read -r key value; do
-              placeholder="{{${key}}}"
-              # Escape special characters in the value
-              escaped_value=$(echo "$value" | sed 's/[&/]/\\&/g')
-              # Replace placeholder with the localized value
-              sed -i "s|$placeholder|$escaped_value|g" "$output_file"
-            done < "$localization_file"
-          }
-          
-          # Process each localization file
-          for loc_file in localization-*.txt; do
-            language=$(echo "$loc_file" | sed -E 's/localization-(.*)\\.txt/\\1/')
-            output_file="./public/cmConfigSigned-${language}.cmconfig"
-            template_config "config.json" "$loc_file" "$output_file"
-          
-            # Sign the generated config
-            status_code=$(curl -s -X POST --data-binary @"$output_file" -w "%{response_code}" \
-              --header "Content-Type: application/json" \
-              https://criticalmoments.io/account/api/sign_config \
-              -o "$output_file")
-          
-            if [ "$status_code" != "200" ]; then
-              echo "Error signing config: $status_code for file $output_file"
-              cat "$output_file"
-              exit 1
-            fi
-          done
+      - name: Generate Localized Configs
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+            const localizations = {
+              "en": {
+                "logMealNotification_title": "Don't forget to log your meals",
+                "logMealNotification_body": "It's important to stay on track!",
+                "keepStreakNotification_title": "🔥 Keep the streak going!",
+                "keepStreakNotification_body": "You're doing great! Keep it up!"
+              },
+              "es": {
+                "logMealNotification_title": "No olvides registrar tus comidas",
+                "logMealNotification_body": "¡Es importante mantenerse en el camino!",
+                "keepStreakNotification_title": "🔥 ¡Sigue con la racha!",
+                "keepStreakNotification_body": "¡Lo estás haciendo genial! ¡Sigue así!"
+              }
+            };
 
+            Object.keys(localizations).forEach(lang => {
+              const localizedConfig = JSON.parse(JSON.stringify(config));
+              Object.keys(localizedConfig.notifications).forEach(notificationKey => {
+                localizedConfig.notifications[notificationKey].title = localizations[lang][`${notificationKey}_title`];
+                localizedConfig.notifications[notificationKey].body = localizations[lang][`${notificationKey}_body`];
+              });
+              fs.writeFileSync(`./public/cmConfigSigned-${lang}.cmconfig`, JSON.stringify(localizedConfig, null, 2));
+            });
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
