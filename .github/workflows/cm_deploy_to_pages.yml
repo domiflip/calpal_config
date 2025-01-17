@@ -35,56 +35,20 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      - name: Generate and Sign Localized Configs
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-            const { execSync } = require('child_process');
-            const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-            const localizations = {
-              "en": {
-                "logMealNotification_title": "Don't forget to log your meals",
-                "logMealNotification_body": "It's important to stay on track!",
-                "keepStreakNotification_title": "🔥 Keep the streak going!",
-                "keepStreakNotification_body": "You're doing great! Keep it up!"
-              },
-              "es": {
-                "logMealNotification_title": "No olvides registrar tus comidas",
-                "logMealNotification_body": "¡Es importante mantenerse en el camino!",
-                "keepStreakNotification_title": "🔥 ¡Sigue con la racha!",
-                "keepStreakNotification_body": "¡Lo estás haciendo genial! ¡Sigue así!"
-              }
-            };
-
-            // Ensure the public directory exists
-            const publicDir = path.join(process.cwd(), 'public');
-            if (!fs.existsSync(publicDir)) {
-              fs.mkdirSync(publicDir, { recursive: true });
-            }
-
-            Object.keys(localizations).forEach(lang => {
-              const localizedConfig = JSON.parse(JSON.stringify(config));
-              Object.keys(localizedConfig.notifications).forEach(notificationKey => {
-                localizedConfig.notifications[notificationKey].title = localizations[lang][`${notificationKey}_title`];
-                localizedConfig.notifications[notificationKey].body = localizations[lang][`${notificationKey}_body`];
-              });
-              const tempFilePath = path.join(process.cwd(), `temp-${lang}.json`);
-              fs.writeFileSync(tempFilePath, JSON.stringify(localizedConfig, null, 2));
-
-              // Sign the config file
-              const signedFilePath = path.join(publicDir, `cmConfigSigned-${lang}.cmconfig`);
-              const command = `curl -s -X POST --data-binary @"${tempFilePath}" -w "%{response_code}" --header "Content-Type: application/json" https://criticalmoments.io/account/api/sign_config -o "${signedFilePath}"`;
-              const statusCode = execSync(command).toString().trim();
-
-              if (statusCode !== "200") {
-                console.error(`Error signing config for ${lang}: ${statusCode}`);
-                process.exit(1);
-              }
-
-              fs.unlinkSync(tempFilePath); // Clean up the temporary file
-            });
+      - name: Process Config Files
+        run: |
+          mkdir -p public
+          for file in config-*.json; do
+            language=$(echo "$file" | sed -E 's/config-(.*)\.json/\1/')
+            signed_name="cmConfigSigned-${language}.cmconfig"
+            status_code=$(curl -s -X POST --data-binary @"$file" -w "%{response_code}" \
+              --header "Content-Type: application/json" \
+              https://criticalmoments.io/account/api/sign_config \
+              -o ./public/${signed_name})
+            if [ "$status_code" != "200" ]; then
+              echo "Error signing config: $status_code for file $file"; cat ./public/${signed_name}; exit 1;
+            fi
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
