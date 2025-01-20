@@ -2,20 +2,20 @@
   "configVersion": "v1",
   "appId": "app.treefox.calpal",
   "notifications": {
-    "logMealNotification": {
+    "logLunchNotification": {
       "title": "DEFAULT",
       "body": "DEFAULT",
       "deliveryTimeOfDayStart": "10:00",
-      "deliveryTimeOfDayEnd": "16:00",
-      "dev_note": "timing should be 12*60*60 = 43200 and 2*60*60 = 7200. Only active in the 4 first days.",
+      "deliveryTimeOfDayEnd": "14:00",
+      "dev_note": "timing should be 10*60*60 = 36000 and 2*60*60 = 7200. Only active in the 4 first days.",
       "deliveryTime": {
         "eventName": "meal_saved",
         "eventInstance": "latest",
-        "eventOffsetSeconds": 43200
+        "eventOffsetSeconds": 36000
       },
       "idealDeliveryConditions": {
         "condition": "screen_brightness > 0.01 && device_orientation != 'face_up' && device_orientation != 'face_down' && device_battery_level > 0.2 && has_active_network",
-        "maxWaitTimeSeconds": 7200
+        "maxWaitTimeSeconds": 3600
       },
       "scheduleCondition": "app_install_date > now() - duration('96h')"
     },

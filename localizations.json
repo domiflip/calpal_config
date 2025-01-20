@@ -1,43 +1,42 @@
 {
-    "en": {
-      "logMealNotification": {
-        "title": "Don't forget to log your meals",
-        "body": "Make sure to keep up with your daily logs."
-      },
-      "keepStreakNotification": {
-        "title": "🔥 Keep the streak alive!",
-        "body": "You're doing great. Let's keep this going."
-      }
+  "en": {
+    "logLunchNotification": {
+      "title": "Don't forget to snap today's lunch! 📸",
+      "body": "Upload a photo and keep your calories in check."
     },
-    "cs": {
-      "logMealNotification": {
-        "title": "Nezapomeňte zaznamenat svá jídla",
-        "body": "Nezapomeňte si vést svůj každodenní záznam."
-      },
-      "keepStreakNotification": {
-        "title": "🔥 Držte si šňůru!",
-        "body": "Vedeš si skvěle. Pokračuj v tom."
-      }
+    "keepStreakNotification": {
+      "title": "💪 You're doing great!",
+      "body": "Don't forget to log today's calories."
+    }
+  },
+  "cs": {
+    "logLunchNotification": {
+      "title": "Nezapomeňte vyfotit dnešní oběd! 📸",
+      "body": "Nahrajte fotku a mějte kalorie pod kontrolou."
     },
-    "sk": {
-      "logMealNotification": {
-        "title": "Nezabudnite zaznamenať svoje jedlá",
-        "body": "Nezabudnite viesť svoj denný záznam."
-      },
-      "keepStreakNotification": {
-        "title": "🔥 Pokračuj v sérii!",
-        "body": "Ide ti to výborne. Len tak ďalej."
-      }
+    "keepStreakNotification": {
+      "title": "💪 Daří se vám skvěle!",
+      "body": "Nezapomeňte si zapsat i dnešní kalorie. "
+    }
+  },
+  "sk": {
+    "logLunchNotification": {
+      "title": "Nezabudnite odfotiť dnešný obed! 📸",
+      "body": "Nahrajte fotku a majte kalórie pod kontrolou."
     },
-    "pl": {
-      "logMealNotification": {
-        "title": "Nie zapomnij zapisać swoich posiłków",
-        "body": "Nie zapomnij uzupełnić swojego dziennego rejestru."
-      },
-      "keepStreakNotification": {
-        "title": "🔥 Utrzymaj passę!",
-        "body": "Świetnie ci idzie. Oby tak dalej."
-      }
+    "keepStreakNotification": {
+      "title": "💪 Darí sa vám skvelo!",
+      "body": "Nezabudnite si zapísať aj dnešné kalórie."
+    }
+  },
+  "pl": {
+    "logLunchNotification": {
+      "title": "Nie zapomnij zrobić zdjęcia dzisiejszego lunchu! 📸",
+      "body": "Prześlij zdjęcie i miej kalorie pod kontrolą."
+    },
+    "keepStreakNotification": {
+      "title": "💪 Idzie ci świetnie!",
+      "body": "Nie zapomnij zapisać dzisiejszych kalorii."
     }
   }
-  
+}
