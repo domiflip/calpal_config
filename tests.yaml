@@ -1,29 +1,6 @@
 # A/B Tests Configuration File
 # Edit this file, and the GitHub Action will generate config.json
 
-newOnboardingFlow:
-  description: "Tests a new multi-step onboarding vs the original single screen. Change3"
-  isActive: true
-  variants:
-    - name: "control"
-      weight: 50
-    - name: "variationA"
-      weight: 50
-
-# This test will fail validation if uncommented because `isActive` is missing.
-# brokenTestExample:
-#   description: "This is a broken test."
-#   variants:
-#     - name: "control"
-#       weight: 100
-
-promoBanner:
-  description: "Tests a new promo banner on the homepage."
-  isActive: true
-  variants:
-    - name: "control"
-    - name: "variation"
-
 experiment20250825liveActivity:
   description: "Live Activity"
   isActive: true
