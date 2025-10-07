@@ -1,4 +1,4 @@
-name: Generate and Validate A/B Test Config
+name: Generate, Validate, and Deploy A/B Test Config to Pages
 
 on:
   push:
@@ -7,13 +7,24 @@ on:
     paths:
       - 'tests.yaml' # Only run this workflow when tests.yaml changes
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       # 1. Check out the repository code
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # 2. Convert YAML to JSON and Validate
       - name: Convert YAML to JSON and Validate
@@ -25,9 +36,29 @@ jobs:
           python -c "import yaml, json, sys; sys.stdout.write(json.dumps(yaml.safe_load(open('tests.yaml')), indent=2))" > config.json
           jsonschema -i config.json .github/schemas/schema.json
 
-      # 4. If validation passes, commit the new config.json back to the repo
-      - name: Commit generated config
-        uses: stefanzweifel/git-auto-commit-action@v4
+      # 3. Setup Pages
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      # 4. Prepare artifact
+      - name: Prepare artifact
+        run: mkdir -p public && mv config.json public/
+
+      # 5. Upload artifact
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          commit_message: "docs: Auto-generate A/B test config.json"
-          file_pattern: 'config.json'
+          path: ./public
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
