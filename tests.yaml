@@ -13,7 +13,9 @@ experiment20250908disableWeeklyTrial:
   isActive: true
   variants:
     - name: "control"
+      weight: 50
     - name: "treatment"
+      weight: 50
 
 experiment20250908sensoryFeedbackInOnboarding:
   description: "Sensory Feedback In Onboarding"
