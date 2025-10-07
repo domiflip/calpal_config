@@ -1,6 +1,13 @@
 # A/B Tests Configuration File
 # Edit this file, and the GitHub Action will generate config.json
 
+failingExperiment:
+  description: "Fail Live Activity"
+  isActive: true
+  variants:
+    - name: "asd"
+    - name: "treatment"
+
 experiment20250825liveActivity:
   description: "Live Activity"
   isActive: true
