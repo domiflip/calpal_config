@@ -2,7 +2,7 @@
 # Edit this file, and the GitHub Action will generate config.json
 
 newOnboardingFlow:
-  description: "Tests a new multi-step onboarding vs the original single screen. Change"
+  description: "Tests a new multi-step onboarding vs the original single screen. Change2"
   isActive: true
   variants:
     - name: "control"
