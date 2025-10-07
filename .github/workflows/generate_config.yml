@@ -1,0 +1,39 @@
+name: Generate and Validate A/B Test Config
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tests.yaml' # Only run this workflow when tests.yaml changes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Check out the repository code
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      # 2. Convert YAML to JSON for validation
+      # We use the `mikefarah/yq` tool for a robust conversion
+      - name: Convert YAML to JSON
+        run: |
+          pip install yq
+          yq -o json '.' tests.yaml > config.json
+
+      # 3. Validate the generated JSON against the schema
+      # We use a Node.js-based validator for this
+      - name: Validate JSON Schema
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install ajv-cli
+      - run: ./node_modules/ajv-cli/ajv validate -s .github/schemas/schema.json -d config.json
+
+      # 4. If validation passes, commit the new config.json back to the repo
+      - name: Commit generated config
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "docs: Auto-generate A/B test config.json"
+          file_pattern: 'config.json'

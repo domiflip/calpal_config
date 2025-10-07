@@ -1,4 +1,0 @@
-logMealNotification.title=Don't forget to log your meals
-logMealNotification.body=Logging meals helps you stay on track with your goals.
-keepStreakNotification.title=🔥 Keep the streak going!
-keepStreakNotification.body=Your streak is impressive—don't miss a day!
