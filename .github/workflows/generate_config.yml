@@ -17,13 +17,13 @@ jobs:
 
       # 2. Convert YAML to JSON and Validate
       - name: Convert YAML to JSON and Validate
-        uses: actions/setup-node@v3
+        uses: actions/setup-python@v4
         with:
-          node-version: '18'
+          python-version: '3.x'
       - run: |
-          npm install yaml ajv-cli
-          node -e "const fs = require('fs'); const yaml = require('yaml'); const file = fs.readFileSync('tests.yaml', 'utf8'); const data = yaml.parse(file); fs.writeFileSync('config.json', JSON.stringify(data, null, 2));"
-          ./node_modules/ajv-cli/ajv validate -s .github/schemas/schema.json -d config.json
+          pip install pyyaml jsonschema
+          python -c "import yaml, json, sys; sys.stdout.write(json.dumps(yaml.safe_load(open('tests.yaml')), indent=2))" > config.json
+          jsonschema -i config.json .github/schemas/schema.json
 
       # 4. If validation passes, commit the new config.json back to the repo
       - name: Commit generated config
