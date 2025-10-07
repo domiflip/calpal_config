@@ -16,3 +16,10 @@ newOnboardingFlow:
 #   variants:
 #     - name: "control"
 #       weight: 100
+
+promoBanner:
+  description: "Tests a new promo banner on the homepage."
+  isActive: true
+  variants:
+    - name: "control"
+    - name: "variation"
