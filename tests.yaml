@@ -23,3 +23,31 @@ promoBanner:
   variants:
     - name: "control"
     - name: "variation"
+
+experiment20250825liveActivity:
+  description: "Live Activity"
+  isActive: true
+  variants:
+    - name: "control"
+    - name: "treatment"
+
+experiment20250908disableWeeklyTrial:
+  description: "Disable Weekly Trial"
+  isActive: true
+  variants:
+    - name: "control"
+    - name: "treatment"
+
+experiment20250908sensoryFeedbackInOnboarding:
+  description: "Sensory Feedback In Onboarding"
+  isActive: true
+  variants:
+    - name: "control"
+    - name: "treatment"
+
+experiment20250923alternativeOnboardingImage:
+  description: "Alternative Onboarding Image"
+  isActive: true
+  variants:
+    - name: "control"
+    - name: "treatment"
