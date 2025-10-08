@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'tests.yaml' # Only run this workflow when tests.yaml changes
+      - 'experiments.yaml' # Only run this workflow when experiments.yaml changes
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -33,7 +33,7 @@ jobs:
           python-version: '3.x'
       - run: |
           pip install pyyaml jsonschema
-          python -c "import yaml, json, sys; sys.stdout.write(json.dumps(yaml.safe_load(open('tests.yaml')), indent=2))" > experiments.json
+          python -c "import yaml, json, sys; sys.stdout.write(json.dumps(yaml.safe_load(open('experiments.yaml')), indent=2))" > experiments.json
           jsonschema -i experiments.json .github/schemas/schema.json
 
       # 3. Setup Pages
