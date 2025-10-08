@@ -2,33 +2,32 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "A/B Test Configuration Schema",
   "type": "object",
-  "patternProperties": {
-    "^[a-zA-Z0-9_]+$": {
-      "type": "object",
-      "properties": {
-        "description": { "type": "string" },
-        "isActive": { "type": "boolean" },
-        "variants": {
-          "type": "array",
-          "minItems": 1,
-          "contains": {
-            "type": "object",
-            "properties": {
-              "name": { "const": "control" }
-            },
-            "required": ["name"]
+  "properties": {
+    "experiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
           },
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": { "type": "string" },
-              "weight": { "type": "integer", "minimum": 0 }
-            },
-            "required": ["name"]
+          "enabled": {
+            "type": "boolean"
+          },
+          "rollout_percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
           }
-        }
-      },
-      "required": ["description", "isActive", "variants"]
+        },
+        "required": [
+          "id",
+          "enabled"
+        ]
+      }
     }
-  }
+  },
+  "required": [
+    "experiments"
+  ]
 }

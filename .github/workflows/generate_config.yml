@@ -33,8 +33,8 @@ jobs:
           python-version: '3.x'
       - run: |
           pip install pyyaml jsonschema
-          python -c "import yaml, json, sys; sys.stdout.write(json.dumps(yaml.safe_load(open('tests.yaml')), indent=2))" > config.json
-          jsonschema -i config.json .github/schemas/schema.json
+          python -c "import yaml, json, sys; sys.stdout.write(json.dumps(yaml.safe_load(open('tests.yaml')), indent=2))" > experiments.json
+          jsonschema -i experiments.json .github/schemas/schema.json
 
       # 3. Setup Pages
       - name: Setup Pages
@@ -43,7 +43,7 @@ jobs:
 
       # 4. Prepare artifact
       - name: Prepare artifact
-        run: mkdir -p public && mv config.json public/
+        run: mkdir -p public && mv experiments.json public/
 
       # 5. Upload artifact
       - name: Upload artifact

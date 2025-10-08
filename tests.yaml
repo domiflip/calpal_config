@@ -1,32 +1,12 @@
 # A/B Tests Configuration File
 # Edit this file, and the GitHub Action will generate config.json
 
-experiment20250825liveActivity:
-  description: "Live Activity"
-  isActive: true
-  variants:
-    - name: "control"
-    - name: "treatment"
-
-experiment20250908disableWeeklyTrial:
-  description: "Disable Weekly Trial"
-  isActive: true
-  variants:
-    - name: "control"
-      weight: 50
-    - name: "treatment"
-      weight: 50
-
-experiment20250908sensoryFeedbackInOnboarding:
-  description: "Sensory Feedback In Onboarding"
-  isActive: true
-  variants:
-    - name: "control"
-    - name: "treatment"
-
-experiment20250923alternativeOnboardingImage:
-  description: "Alternative Onboarding Image"
-  isActive: true
-  variants:
-    - name: "control"
-    - name: "treatment"
+experiments:
+  - id: "new_feature_onboarding"
+    enabled: true
+    rollout_percent: 50
+  - id: "redesigned_homescreen"
+    enabled: false
+  - id: "new_checkout_flow"
+    enabled: true
+    rollout_percent: 10
