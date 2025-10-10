@@ -12,6 +12,6 @@ experiments:
     rollout_percent: 10
 
 featureFlags:
-  - name: "new_awesome_feature"
+  - name: "new_awesome_feature2"
     enabled: true
   
