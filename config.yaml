@@ -2,10 +2,16 @@
 # Edit this file, and the GitHub Action will generate config.json
 
 #Make sure experiments and featureFlags both have items or are defined as [] 
-experiments: []
-    
+
+#Example:
+
+#experiments:
+#  - id: "experiment20251008paywallFromSheet"
+#    enabled: true
+#    rollout_percent: 100
+#featureFlags:
+#  - name: "promo_codes_in_onboarding_paywall"
+#    enabled: false
+   
 featureFlags:
   - name: "promo_codes_in_onboarding_paywall"
-    enabled: false
-  - name: "feature_not_exists"
-    enabled: false
