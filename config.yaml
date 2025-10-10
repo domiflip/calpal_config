@@ -15,4 +15,4 @@ featureFlags:
   - name: "promo_codes_in_onboarding_paywall"
     enabled: false
   - name: "feature_not_exists"
-    enabled: true
+    enabled: false
