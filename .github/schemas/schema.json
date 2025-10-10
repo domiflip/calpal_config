@@ -26,7 +26,7 @@
         ]
       }
     },
-    "feature_flags": {
+    "featureFlags": {
       "type": "array",
       "items": {
         "type": "object",
@@ -47,6 +47,6 @@
   },
   "required": [
     "experiments",
-    "feature_flags"
+    "featureFlags"
   ]
 }
