@@ -13,5 +13,5 @@ experiments:
 
 featureFlags:
   - name: "promo_codes_in_onboarding_paywall"
-    enabled: true
+    enabled: false
   
