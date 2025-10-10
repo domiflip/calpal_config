@@ -7,11 +7,11 @@ experiments:
     rollout_percent: 50
   - id: "redesigned_homescreen"
     enabled: false
-    - id: "new_checkout_flow"
-      enabled: true
-      rollout_percent: 10
-  
-  feature_flags:
-    - name: "new_awesome_feature"
-      enabled: true
+  - id: "new_checkout_flow"
+    enabled: true
+    rollout_percent: 10
+
+feature_flags:
+  - name: "new_awesome_feature"
+    enabled: true
   
