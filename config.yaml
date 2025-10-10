@@ -10,10 +10,8 @@ experiments:
   - id: "new_checkout_flow"
     enabled: true
     rollout_percent: 10
-
 featureFlags:
   - name: "promo_codes_in_onboarding_paywall"
     enabled: false
   - name: "feature_not_exists
     enabled: true
-  
