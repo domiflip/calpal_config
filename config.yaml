@@ -2,9 +2,9 @@
 # Edit this file, and the GitHub Action will generate config.json
 
 experiments:
-  - id: "new_feature_onboarding"
+  - id: "experiment20251008paywallFromSheet"
     enabled: true
-    rollout_percent: 50
+    rollout_percent: 100
   - id: "redesigned_homescreen"
     enabled: false
   - id: "new_checkout_flow"
