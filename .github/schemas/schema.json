@@ -25,9 +25,28 @@
           "enabled"
         ]
       }
+    },
+    "feature_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "enabled"
+        ]
+      }
     }
   },
   "required": [
-    "experiments"
+    "experiments",
+    "feature_flags"
   ]
 }
