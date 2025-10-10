@@ -12,6 +12,6 @@ experiments:
     rollout_percent: 10
 
 featureFlags:
-  - name: "new_awesome_feature2"
+  - name: "offer_codes_in_onboarding_paywall"
     enabled: true
   
