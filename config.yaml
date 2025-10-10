@@ -5,7 +5,7 @@ experiments:
   - id: "experiment20251008paywallFromSheet"
     enabled: true
     rollout_percent: 100
-  - id: "redesigned_homescreen"
+  - id: "experiment20250908sensoryFeedbackInOnboarding"
     enabled: false
   - id: "new_checkout_flow"
     enabled: true
