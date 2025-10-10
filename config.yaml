@@ -1,7 +1,8 @@
-# A/B Tests Configuration File
+# A/B Tests and feature flags Configuration File
 # Edit this file, and the GitHub Action will generate config.json
 
-experiments:
+#Make sure experiments and featureFlags both have items or are defined as [] 
+experiments: []
     
 featureFlags:
   - name: "promo_codes_in_onboarding_paywall"
