@@ -13,4 +13,6 @@
 
 #Make sure experiments and featureFlags both have items or are defined as [] 
 experiments: []
-featureFlags: []
+featureFlags:
+  - name: "promo_codes_in_onboarding_paywall"
+    enabled: true
