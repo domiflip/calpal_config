@@ -12,5 +12,9 @@
 #    enabled: false
 
 #Make sure experiments and featureFlags both have items or are defined as [] 
-experiments: []
+experiments:
+  - id: "experiment_1.2.8_freeImageIndicator"
+    enabled: false
+  - id: "experiment_1.2.8_noWeeklyTrialNewPaywall"
+    enabled: false
 featureFlags: []
