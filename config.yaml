@@ -17,4 +17,6 @@ experiments:
     enabled: false
   - id: "experiment_1.2.8_noWeeklyTrialNewPaywall"
     enabled: false
+  - id: "experiment_1.2.8_visualJourneyProjection"
+    enabled: false
 featureFlags: []
