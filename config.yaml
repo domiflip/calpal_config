@@ -19,4 +19,6 @@ experiments:
     enabled: false
   - id: "experiment_1.2.8_visualJourneyProjection"
     enabled: false
+  - id: "experiment_1.3.1_skipRateUs"
+    enabled: false
 featureFlags: []
